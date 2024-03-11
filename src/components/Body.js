@@ -1,7 +1,6 @@
 import RestaurantCard from "./RestaurantCard";
 
-const Body = (props) => {
-    console.log(props);
+const Body = () => {
     return(
         <div className="body">
             <div className="search">Search</div>
