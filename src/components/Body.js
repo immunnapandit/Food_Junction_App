@@ -2,6 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
 
@@ -34,6 +35,16 @@ const Body = () => {
     //     return <Shimmer/>;
     // }
 
+    const onlineStatus = useOnlineStatus();
+
+    if(onlineStatus ===false)
+        return(
+            <h1>
+                you're offline !! Please check your internet connection
+            </h1>
+    )
+
+
     return listOfRestaurants.length===0 ? (
         <Shimmer/>
     ) : (
@@ -43,15 +54,19 @@ const Body = () => {
                     <input
                     type="text"
                     className="search-box"
-                    value={searchText} onChange={(e)=>{
+                    value={searchText} 
+                    onChange={(e)=>{
                     setSearchText(e.target.value);
-                    }}></input>
+                    }}>
+                    </input>
 
                     <button onClick={()=>{
                         console.log(searchText);
+
                         const filteredRestaurant  = listOfRestaurants.filter((res)=>
                         res.info.name.toLowerCase().includes(searchText.toLowerCase())
                         );
+
                         setfilteredRestaurant(filteredRestaurant);
                     }}>
                     search
@@ -60,10 +75,10 @@ const Body = () => {
                 <button 
                     className="filter-btn" 
                     onClick={()=>{
-                        const filteredRestaurant = listOfRestaurants.filter(
+                        const filteredList = listOfRestaurants.filter(
                             (res) => res.info.avgRating>4.5
                         );
-                        setListOfRestaurant(filteredRestaurant);
+                        setListOfRestaurant(filteredList);
                     }}>Top Rated Restaurants
                 </button>
             </div>
@@ -72,9 +87,9 @@ const Body = () => {
                     <Link
                     key={restaurant.info.id}
                     to={"/restaurants/"+restaurant.info.id}
-                    >
-                     <RestaurantCard resData = {restaurant.info}/>
-                     </Link>
+                 >
+                <RestaurantCard resData = {restaurant.info}/>
+             </Link>
             ))}
         </div>
      </div>
