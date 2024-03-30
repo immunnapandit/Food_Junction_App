@@ -8,4 +8,4 @@ const Grocery = () =>{
     )
 };
 
-export default Grocery;
+export default Grocery; 
