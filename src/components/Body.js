@@ -8,6 +8,7 @@ const Body = () => {
     const [listOfRestaurants, setListOfRestaurant] = useState([]);
     const [filteredRestaurant, setFilteredRestaurant] = useState([]);
     const [searchText, setSearchText] = useState("");
+    // const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
     useEffect(() => {
         fetchData();
@@ -19,6 +20,8 @@ const Body = () => {
         );
 
         const json = await data.json();
+
+        console.log(json)
 
         const restaurants = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
 
@@ -33,7 +36,7 @@ const Body = () => {
     }
 
     const filterTopRatedRestaurants = () => {
-        const topRatedRestaurants = listOfRestaurants.filter(res => res.info.avgRating > 4.3);
+        const topRatedRestaurants = listOfRestaurants.filter(res => res.info.avgRating > 4.5);
         setFilteredRestaurant(topRatedRestaurants);
     };
 
@@ -73,8 +76,8 @@ const Body = () => {
             <div className="flex flex-wrap">
                 {filteredRestaurant.map((restaurant) => (
                     <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
-                        <RestaurantCard resData={restaurant.info} />
-                    </Link>
+                    <RestaurantCard resData={restaurant.info} />
+                </Link>
                 ))}
             </div>
         </div>
