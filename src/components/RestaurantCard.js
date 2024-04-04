@@ -1,10 +1,14 @@
 import { RES_URL } from "../utils/constants";
 // import Star from "../assets/images/green star.png";
 import Star from "../assets/green star.png"
+import { useContext } from "react";
+import UserContext from "../utils/UserContext";
+
 
 
 const RestaurantCard = (props) => {
     const { resData } = props;
+    const {loggedInUser} = useContext(UserContext)
 
    const {
     cloudinaryImageId,
@@ -31,6 +35,7 @@ const RestaurantCard = (props) => {
             
             <h4>{costForTwo}</h4>
             <h4>{sla.deliveryTime} Minutes</h4>
+            <h4>User:{loggedInUser}</h4>
         </div>
     );
 };
