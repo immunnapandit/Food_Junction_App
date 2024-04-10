@@ -1,4 +1,4 @@
-import React, {Suspense, lazy, useEffect, useState} from 'react';
+import React, {Suspense, lazy} from 'react';
 import ReactDOM from 'react-dom/client';
 import './App.css';
 import Header from './components/Header';
@@ -9,34 +9,37 @@ import Contact from './components/Contact';
 import Error from './components/Error';
 import RestaurantMenu from './components/RestaurantMenu';
 import {Footer} from './components/Footer';
-import UserContext from './utils/UserContext';
+// import UserContext from './utils/UserContext';
 // import Grocery from './components/Grocery';
+import {Provider} from "react-redux";
+import appStore from './utils/appStore';
+import Cart from './components/Cart';
 
 const Grocery = lazy(() => import("./components/Grocery"));
-
 const About = lazy(() => import("./components/About"));
 
 const AppLayout = () =>{
 
-  const [userName, setUserName] = useState();
+  // const [userName, setUserName] = useState();
 
-  //authentication
-  useEffect(()=>{
-    //Make an API Call and send username and Password
-    const data = {
-      name: "Munna Kumar"
-    };
-    setUserName(data.name);
-  },[]);
+  // //authentication
+  // useEffect(()=>{
+  //   //Make an API Call and send username and Password
+  //   const data = {
+  //     name: "Munna Kumar"
+  //   };
+  //   setUserName(data.name);
+  // },[]);
 
   return(
-    <UserContext.Provider value={{loggedInUser: userName, setUserName}}>
+    <Provider store={appStore}>
     <div className='app'>
       <Header/>
       <Outlet/>
       <Footer/>
     </div>
-    </UserContext.Provider>
+    </Provider>
+
   )
 }
 
@@ -72,6 +75,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurants/:resId",
         element: <RestaurantMenu/>
+      },
+      {
+        path: "/cart",
+        element: <Cart/>
       }
     ],
     errorElement: <Error/>

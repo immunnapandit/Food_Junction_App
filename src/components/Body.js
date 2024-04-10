@@ -1,16 +1,16 @@
 import RestaurantCard from "./RestaurantCard";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect} from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
-import UserContext from "../utils/UserContext";
+// import UserContext from "../utils/UserContext";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const Body = () => {
     const [listOfRestaurants, setListOfRestaurant] = useState([]);
     const [filteredRestaurant, setFilteredRestaurant] = useState([]);
     const [searchText, setSearchText] = useState("");
-    // const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
-    const {loggedInUser, setUserName} = useContext(UserContext);
+    // const { loggedInUser, setUserName } = useContext(UserContext);
 
     useEffect(() => {
         fetchData();
@@ -23,9 +23,8 @@ const Body = () => {
 
         const json = await data.json();
 
-        console.log(json)
-
-        const restaurants = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
+        const restaurants =
+            json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
 
         setListOfRestaurant(restaurants);
         setFilteredRestaurant(restaurants);
@@ -34,18 +33,62 @@ const Body = () => {
     const onlineStatus = useOnlineStatus();
 
     if (onlineStatus === false) {
-        return <h1>You're offline !! Please check your internet connection</h1>;
+        return (
+            <div className="flex flex-col gap-4 justify-center items-center p-3">
+                <Player
+                    autoplay
+                    loop
+                    className="lg:w-[500px] lg:h-[500px]"
+                    src="https://assets8.lottiefiles.com/packages/lf20_lillfalp.json"
+                />
+                <h1>You're offline !! Please check your internet connection</h1>
+            </div>
+        );
+    }
+
+    if (!listOfRestaurants) {
+        return (
+            <div className="flex flex-col gap-4 justify-center items-center p-3">
+                <Player
+                    autoplay
+                    loop
+                    className="lg:w-[500px] lg:h-[500px]"
+                    src="https://assets8.lottiefiles.com/packages/lf20_lillfalp.json"
+                />
+                <h1 className="text-xl font-semibold text-black">
+                    Hey there, Doors are closed
+                </h1>
+                <h4 className="text-base font-normal text-[#808080] lg:w-[500px] text-center">
+                    No restaurants available now!
+                </h4>
+            </div>
+        );
     }
 
     const filterTopRatedRestaurants = () => {
-        const topRatedRestaurants = listOfRestaurants.filter(res => res.info.avgRating > 4.5 );
+        const topRatedRestaurants = listOfRestaurants.filter(
+            (res) => res.info.avgRating > 4.5
+        );
         setFilteredRestaurant(topRatedRestaurants);
     };
 
+    if (filteredRestaurant.length === 0 && searchText.trim() !== "") {
+        return (
+            <div className="flex flex-col gap-4 justify-center items-center p-3">
+                <Player
+                    autoplay
+                    loop
+                    className="lg:w-[500px] lg:h-[500px]"
+                    src="https://assets8.lottiefiles.com/packages/lf20_lillfalp.json"
+                />
+                <h1 className="text-xl font-semibold text-black">
+                    No Restaurants Matches for {searchText}
+                </h1>
+            </div>
+        );
+    }
 
-    return listOfRestaurants.length === 0 ? (
-        <Shimmer />
-    ) : (
+    return (
         <div className="body">
             <div className="filter flex">
                 <div className="search m-4 p-4">
@@ -58,7 +101,7 @@ const Body = () => {
                     <button
                         className="px-4 py-2 bg-green-300 m-4 rounded-lg"
                         onClick={() => {
-                            const filteredResult = filteredRestaurant.filter(res =>
+                            const filteredResult = listOfRestaurants.filter((res) =>
                                 res.info.name.toLowerCase().includes(searchText.toLowerCase())
                             );
                             setFilteredRestaurant(filteredResult);
@@ -75,21 +118,24 @@ const Body = () => {
                         Top Rated Restaurants
                     </button>
                 </div>
-                <div className="search m-4 p-4 flex items-center">
+                {/* <div className="search m-4 p-4 flex items-center">
                     <label>UserName</label>
-                    <input className="border border-black P-2" 
-                    value={loggedInUser}
-                    onChange={(e) => setUserName(e.target.value)}></input>
-                </div> 
+                    <input
+                        className="border border-black P-2"
+                        value={loggedInUser}
+                        onChange={(e) => setUserName(e.target.value)}
+                    />
+                </div> */}
             </div>
             <div className="flex flex-wrap">
                 {filteredRestaurant.map((restaurant) => (
                     <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
-                    <RestaurantCard resData={restaurant.info} />
-                </Link>
+                        <RestaurantCard resData={restaurant.info} />
+                    </Link>
                 ))}
             </div>
         </div>
     );
 };
+
 export default Body;

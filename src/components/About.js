@@ -2,7 +2,7 @@
 
 // import { Footer } from "./Footer";
 // import Header from "./Header";
-// import { Player } from "@lottiefiles/react-lottie-player";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const About = () => {
   return (
@@ -12,12 +12,12 @@ const About = () => {
           About Us
         </h1>
         <div className="lg:flex-row flex flex-col gap-6 lg:gap-1 justify-center items-center lg:px-32 ">
-          {/* <Player
+          <Player
             autoplay
             loop
             className="lg:w-[500px]"
             src="https://assets6.lottiefiles.com/packages/lf20_ihkjwhbc.json"
-          ></Player> */}
+          ></Player>
           <p className=" leading-6 tracking-normal lg:text-left font-normal p-4 text-sm lg:font-light text-slate-700">
             Introducing Food Junction, your go-to destination for delicious food
             delivery. Our app, built with ReactJS, offers a seamless experience
@@ -51,12 +51,12 @@ const About = () => {
             deliver your next meal. Try our app today and experience the
             convenience of food delivery at your fingertips.
           </p>
-          {/* <Player
+          <Player
             autoplay
             loop
             className="lg:w-[500px]"
             src="https://assets6.lottiefiles.com/packages/lf20_on5CEa.json"
-          ></Player> */}
+          ></Player>
         </div>
         {/* <a href="/profile"><button className="bg-[#FC8019] text-white font-medium py-3 px-5 rounded-lg">Go to Developer's Profile</button></a> */}
 
