@@ -14,6 +14,7 @@ import {Footer} from './components/Footer';
 import {Provider} from "react-redux";
 import appStore from './utils/appStore';
 import Cart from './components/Cart';
+import SignUp from './components/SignUp';
 
 const Grocery = lazy(() => import("./components/Grocery"));
 const About = lazy(() => import("./components/About"));
@@ -79,6 +80,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart/>
+      },
+      {
+        path: "/signup",
+        element: <SignUp/>
       }
     ],
     errorElement: <Error/>

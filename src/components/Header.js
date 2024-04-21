@@ -50,6 +50,13 @@ const Header = () =>{
                     }}>
                     {btnNameReact}
                 </button>
+                {/* <li>
+                    <Link to="/signup">
+                        <button className="bg-black text-white py-2 px-5 rounded-lg">
+                            SignUp
+                        </button>
+                    </Link>
+                </li> */}
              </ul>
         </div>
     </div>
