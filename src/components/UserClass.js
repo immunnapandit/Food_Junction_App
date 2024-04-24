@@ -1,103 +1,133 @@
-import RestaurantCard from "./RestaurantCard";
-import { useState, useEffect } from "react";
-import Shimmer from "./Shimmer";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import useOnlineStatus from "../utils/useOnlineStatus";
+import { useForm } from "react-hook-form";
 
-const Body = () => {
+const Signup = () => {
+  const [full_name, setFullName] = useState(" ");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
 
-    const [listOfRestaurants, setListOfRestaurant]= useState([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    const [filteredRestaurant, setfilteredRestaurant] = useState([]);
+  const handleClick = () => {
+    console.warn(full_name, password, phone, email);
+  };
+  // const [formData, setFormData] = useState({
+  //   full_name: "",
+  //   email: "",
+  //   phone: "",
+  //   password: "",
+  // });
 
-    const [searchText,setSearchText] = useState("");
+  // const onSubmit = (data) => {
+  //   // event.preventDefault();
+  //   fetch("https://api.infin.alpha.logidots.com/api/users", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(data),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       // handle success
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       // handle error
+  //     });
+  // };
 
-    useEffect(()=>{
-        fetchData();
-    },[]);
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //   }));
+  // };
 
-    const fetchData = async ()=>{
-        const data = await fetch(
-            "https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.1471479974105&lng=79.91420812904835&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-        );
-
-        const json = await data.json();
-
-         console.log(json);
-        //Optional Chaining
-        setListOfRestaurant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-        setfilteredRestaurant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    }
-        // function filterRestaurant(){
-        //     setListOfRestaurant(listOfRestaurants.filter((e)=>(e.info.avgRating>4.5)))
-    
-
-    // if(listOfRestaurants.length===0){
-    //     return <Shimmer/>;
-    // }
-
-    const onlineStatus = useOnlineStatus();
-
-    if(onlineStatus ===false)
-        return(
-            <h1>
-                you're offline !! Please check your internet connection
-            </h1>
-    )
-
-
-    return listOfRestaurants.length===0 ? (
-        <Shimmer/>
-    ) : (
-        <div className="body">
-            <div className="filter flex">
-                <div className="search m-4 p-4">
-                    <input
-                    type="text"
-                    className="border border-solid border-black"
-                    value={searchText} 
-                    onChange={(e)=>{
-                    setSearchText(e.target.value);
-                    }}>
-                    </input>
-
-                    <button className="px-4 py-2 bg-green-300 m-4"
-                    onClick={()=>{
-                        console.log(searchText);
-
-                        const filteredRestaurant  = listOfRestaurants.filter((res)=>
-                         res.info.name.toLowerCase().includes(searchText.toLowerCase())
-                        );
-
-                        setfilteredRestaurant(filteredRestaurant);
-
-                    }}>
-                    search
-                </button>
-            </div>
-            <div className="search m-4 p-4 flex items-center">
-            <button 
-                className="px-4 py-2 bg-gray-100 rounded-lg" 
-                onClick={()=>{
-                const filteredList = filteredRestaurant.filter(
-                (res) => res.info.avgRating>4.5
-                );
-                setListOfRestaurant(filteredList);
-                 }}>Top Rated Restaurants
-                </button>
-            </div>  
-            </div>
-            <div className="flex flex-wrap">
-                {filteredRestaurant.map((restaurant)=>(
-                    <Link
-                    key={restaurant.info.id}
-                    to={"/restaurants/"+restaurant.info.id}
-                 >
-                <RestaurantCard resData = {restaurant.info}/>
-             </Link>
-            ))}
+  return (
+    <div className="flex flex-col p-6 gap-12 sm:gap-16 lg:ml-[35%] lg:p-10 lg:border lg:border-neutral-100 lg:w-[500px] lg:py-12 lg:shadow-lg lg:rounded-lg justify-center items-center align-middle">
+      <div className="grid sm:grid-cols-2 justify-center items-center grid-flow-row">
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-5xl font-medium">Sign up</h1>
         </div>
-     </div>
-    );
+        <img
+          src="	https://cdn3d.iconscout.com/3d/premium/thumb/burger-5863026-4897345.png"
+          className="hidden sm:flex sm:w-24 rounded-full"
+        />
+      </div>
+
+      <div>
+        <form
+          className="flex flex-col gap-4 lg:w-96"
+          // onSubmit={handleSubmit(onSubmit)}
+        >
+          <input
+            className="border p-4 border-gray-100 shadow-sm rounded-md outline-none"
+            type="text"
+            onChange={(e) => setFullName(e.target.value)}
+            // id="full_name"
+            // name="full_name"
+            placeholder="Full Name"
+            value={full_name}
+             // onChange={handleChange}
+          />
+
+          <input
+            className="border p-4 border-gray-100 shadow-sm rounded-md outline-none"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            // id="email"
+            // name="email"
+            placeholder="Email"
+            value={email}
+            // onChange={handleChange}
+          />
+
+          <input
+            className="border p-4 border-gray-100 shadow-sm rounded-md outline-none"
+            type="tel"
+            onChange={(e) => setPhone(e.target.value)}
+            // id="phone"
+            // name="phone"
+            placeholder="Phone Number"
+            value={phone}
+            // onChange={handleChange}
+          />
+
+          <input
+            className="border p-4 border-gray-100 shadow-sm rounded-md outline-none"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            // id="password"
+            // name="password"
+            placeholder="Password"
+            value={password}
+            // onChange={handleChange}
+          />
+
+          <button
+            onClick={handleClick}
+            className="bg-[#FC8019] p-4 text-white font-medium text-xl rounded-md"
+          >
+            Sign Up
+          </button>
+        </form>
+        <p className="font-normal text-[#808080] text-xs text-center mt-6">
+          Already have an account? Please{" "}
+          <span className="text-[#FC8019] font-medium cursor-pointer">
+            <Link to="/login">Login</Link>
+          </span>
+        </p>
+      </div>
+    </div>
+  );
 };
-export default Body;
+export default Signup;

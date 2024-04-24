@@ -7,7 +7,7 @@ import UserContext from "../utils/UserContext";
 import {useSelector} from "react-redux";
 
 const Header = () =>{
-    const [btnNameReact, setBtnNameReact] = useState("Login")
+    // const [btnNameReact, setBtnNameReact] = useState("Login")
 
     const onlineStatus = useOnlineStatus();
 
@@ -42,21 +42,21 @@ const Header = () =>{
                 <li className="px-4">
                     <Link to="/cart">Cart({cartItems.length} items)</Link>
                 </li>
-                    <button className="btn" 
+                    {/* <button className="btn" 
                     onClick={()=>{
                      btnNameReact ==="Login"
                     ? setBtnNameReact("Logout")
                     : setBtnNameReact("Login");
                     }}>
                     {btnNameReact}
-                </button>
-                {/* <li>
+                </button> */}
+                <li>
                     <Link to="/signup">
                         <button className="bg-black text-white py-2 px-5 rounded-lg">
-                            SignUp
+                            Login
                         </button>
                     </Link>
-                </li> */}
+                </li>
              </ul>
         </div>
     </div>
