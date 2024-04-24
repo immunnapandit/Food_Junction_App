@@ -22,6 +22,7 @@ const Signup = () => {
   //   email: "",
   //   phone: "",
   //   password: "",
+  //munna
   // });
 
   // const onSubmit = (data) => {
